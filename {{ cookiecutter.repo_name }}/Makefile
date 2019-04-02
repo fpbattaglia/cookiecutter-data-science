@@ -68,10 +68,10 @@ data_dirs:
 	find ${RESULTS_DATA_DIR} -maxdepth ${DEPTH_DIR} -type d -exec mkdir {}/results ';'
 	find ${RESULTS_DATA_DIR} -maxdepth ${DEPTH_DIR} -type d -exec mkdir {}/figures ';'
 
-	ln -sfF ${RAW_DATA_DIR} data/raw
-	ln -sfF ${PREPROC_DATA_DIR} data/preprocessed
-	ln -sfF ${INTERM_DATA_DIR} data/intermediate
-	ln -sfF ${RESULTS_DATA_DIR} data/results
+	rm -rf data/raw && ln -sf ${RAW_DATA_DIR} data/raw
+	rm -rf data/preprocessed && ln -sf ${PREPROC_DATA_DIR} data/preprocessed
+	rm -rf data/intermediate && ln -sf ${INTERM_DATA_DIR} data/intermediate
+	rm -rf data/results && ln -sf ${RESULTS_DATA_DIR} data/results
 
 
 
