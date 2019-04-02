@@ -1,4 +1,5 @@
-.PHONY: clean data lint requirements sync_data_to_s3 sync_data_from_s3
+.PHONY: clean data lint create_environment
+# sync_data_to_s3 sync_data_from_s3
 
 #################################################################################
 # GLOBALS                                                                       #
@@ -6,26 +7,16 @@
 
 PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 PROJECT_NAME = {{ cookiecutter.repo_name }}
-PYTHON_INTERPRETER = {{ cookiecutter.python_interpreter }}
 
-ifeq (,$(shell which conda))
-HAS_CONDA=False
-else
-HAS_CONDA=True
-endif
+RAW_DATA_DIR = {{ cookiecutter.raw_data_directory }}
+PREPROC_DATA_DIR = {{ cookiecutter.preprocessed_data_directory }}
+RESULTS_DATA_DIR = {{ cookiecutter.results_data_directory }}
+DEPTH_DIR = {{ cookiecutter.depth_directory_structure}}
 
 #################################################################################
 # COMMANDS                                                                      #
 #################################################################################
 
-## Install Python Dependencies
-requirements: test_environment
-	$(PYTHON_INTERPRETER) -m pip install -U pip setuptools wheel
-	$(PYTHON_INTERPRETER) -m pip install -r requirements.txt
-
-## Make Dataset
-data: requirements
-	$(PYTHON_INTERPRETER) src/data/make_dataset.py
 
 ## Delete all compiled Python files
 clean:
@@ -38,21 +29,38 @@ lint:
 
 ## Set up python interpreter environment
 create_environment:
-ifeq (True,$(HAS_CONDA))
-		@echo ">>> Detected conda, creating conda environment."
-    conda env create -f environment.yml
-else
-	$(error conda is needed to install this environment)
-endif
+	echo "running"
+	conda env create -f environment.yml
 
-## Test python environment is setup correctly
-test_environment:
-	$(PYTHON_INTERPRETER) test_environment.py
 
 #################################################################################
 # PROJECT RULES                                                                 #
 #################################################################################
 
+## Generate directory structures
+data_dirs:
+	# make raw data folder readonly
+	chmod -R 555 ${RAW_DATA_DIR}
+
+	rm -rf ${PREPROC_DATA_DIR}
+	rm -rf ${RESULTS_DATA_DIR}
+
+	mkdir -p ${PREPROC_DATA_DIR}
+	mkdir -p ${RESULTS_DATA_DIR}
+
+
+	cd ${RAW_DATA_DIR} ;  find . -maxdepth ${DEPTH_DIR} -print0 | cut -c 2- | xargs -0 tar cnf - | \
+		(cd ${PREPROC_DATA_DIR} ; tar xvvkf -)
+	chmod -R 755 ${PREPROC_DATA_DIR}
+
+	cd ${RAW_DATA_DIR} ;  find . -maxdepth ${DEPTH_DIR} -print0 | cut -c 2- | xargs -0 tar cnf - | \
+		(cd ${RESULTS_DATA_DIR} ; tar xvvkf -)
+	chmod -R 755 ${RESULTS_DATA_DIR}
+
+	# for d in $(find ${RESULTS_DATA_DIR} -maxdepth ${DEPTH_DIR} -type d); do echo ${d}/results ; done
+	# find ${RESULTS_DATA_DIR} -maxdepth ${DEPTH_DIR} -type d -exec sh -c "file='$$0'; mkdir '$${file}'/results" {} ';'
+	find ${RESULTS_DATA_DIR} -maxdepth ${DEPTH_DIR} -type d -exec mkdir {}/results ';'
+	find ${RESULTS_DATA_DIR} -maxdepth ${DEPTH_DIR} -type d -exec mkdir {}/figures ';'
 
 
 #################################################################################
@@ -76,6 +84,7 @@ test_environment:
 # 	* print line
 # Separate expressions are necessary because labels cannot be delimited by
 # semicolon; see <http://stackoverflow.com/a/11799865/1968>
+
 .PHONY: help
 help:
 	@echo "$$(tput bold)Available rules:$$(tput sgr0)"

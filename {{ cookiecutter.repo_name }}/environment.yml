@@ -17,4 +17,4 @@ dependencies:
   - sphinx
   - sphinx_rtd_theme
   - recommonmark
-  -
+  - flake8
