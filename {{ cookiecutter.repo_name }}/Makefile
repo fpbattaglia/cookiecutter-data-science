@@ -59,8 +59,8 @@ data_dirs:
 		(cd ${RESULTS_DATA_DIR} ; tar xvvkf -)
 	chmod -R 755 ${RESULTS_DATA_DIR}
 
-	cd ${INTERM_DATA_DIR} ;  find . -maxdepth ${DEPTH_DIR} -print0 | cut -c 2- | xargs -0 tar cnf - | \
-		(cd ${RESULTS_DATA_DIR} ; tar xvvkf -)
+	cd ${RAW_DATA_DIR} ;  find . -maxdepth ${DEPTH_DIR} -print0 | cut -c 2- | xargs -0 tar cnf - | \
+		(cd ${INTERM_DATA_DIR} ; tar xvvkf -)
 	chmod -R 755 ${INTERM_DATA_DIR}
 
 	# for d in $(find ${RESULTS_DATA_DIR} -maxdepth ${DEPTH_DIR} -type d); do echo ${d}/results ; done
