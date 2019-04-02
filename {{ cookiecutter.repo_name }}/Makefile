@@ -11,6 +11,7 @@ PROJECT_NAME = {{ cookiecutter.repo_name }}
 RAW_DATA_DIR = {{ cookiecutter.raw_data_directory }}
 PREPROC_DATA_DIR = {{ cookiecutter.preprocessed_data_directory }}
 RESULTS_DATA_DIR = {{ cookiecutter.results_data_directory }}
+INTERM_DATA_DIR = {{ cookiecutter.intermediate_data_directory }}
 DEPTH_DIR = {{ cookiecutter.depth_directory_structure}}
 
 #################################################################################
@@ -44,10 +45,11 @@ data_dirs:
 
 	rm -rf ${PREPROC_DATA_DIR}
 	rm -rf ${RESULTS_DATA_DIR}
+	rm -rf ${INTERM_DATA_DIR}
 
 	mkdir -p ${PREPROC_DATA_DIR}
 	mkdir -p ${RESULTS_DATA_DIR}
-
+	mkdir -p ${INTERM_DATA_DIR}
 
 	cd ${RAW_DATA_DIR} ;  find . -maxdepth ${DEPTH_DIR} -print0 | cut -c 2- | xargs -0 tar cnf - | \
 		(cd ${PREPROC_DATA_DIR} ; tar xvvkf -)
@@ -57,10 +59,20 @@ data_dirs:
 		(cd ${RESULTS_DATA_DIR} ; tar xvvkf -)
 	chmod -R 755 ${RESULTS_DATA_DIR}
 
+	cd ${INTERM_DATA_DIR} ;  find . -maxdepth ${DEPTH_DIR} -print0 | cut -c 2- | xargs -0 tar cnf - | \
+		(cd ${RESULTS_DATA_DIR} ; tar xvvkf -)
+	chmod -R 755 ${INTERM_DATA_DIR}
+
 	# for d in $(find ${RESULTS_DATA_DIR} -maxdepth ${DEPTH_DIR} -type d); do echo ${d}/results ; done
 	# find ${RESULTS_DATA_DIR} -maxdepth ${DEPTH_DIR} -type d -exec sh -c "file='$$0'; mkdir '$${file}'/results" {} ';'
 	find ${RESULTS_DATA_DIR} -maxdepth ${DEPTH_DIR} -type d -exec mkdir {}/results ';'
 	find ${RESULTS_DATA_DIR} -maxdepth ${DEPTH_DIR} -type d -exec mkdir {}/figures ';'
+
+	ln -sfF ${RAW_DATA_DIR} data/raw
+	ln -sfF ${PREPROC_DATA_DIR} data/preprocessed
+	ln -sfF ${INTERM_DATA_DIR} data/intermediate
+	ln -sfF ${RESULTS_DATA_DIR} data/results
+
 
 
 #################################################################################

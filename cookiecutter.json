@@ -6,6 +6,7 @@
     "open_source_license": ["MIT", "BSD-3-Clause", "No license file"],
     "raw_data_directory": "Raw data directory",
     "preprocessed_data_directory": "Preprocessed data directory",
+    "intermediate_data_directory": "Intermediate data directory",
     "results_data_directory": "Results data directory",
-    "depth_directory_structure", [2, 3]
+    "depth_directory_structure": ["2", "3"]
 }
