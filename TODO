@@ -1,0 +1,4 @@
+- add config to the src package
+- add json config file to src package
+- config file should include original location of data
+- as

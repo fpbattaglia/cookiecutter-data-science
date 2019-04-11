@@ -1,0 +1,13 @@
+{
+  "project_name": "{{ cookiecutter.project_name }}",
+  "repo_name": "{{ cookiecutter.repo_name }}",
+  "author_name": "{{ cookiecutter.author_name }}",
+  "description": "{{ cookiecutter.description }}",
+  "open_source_license": "{{ cookiecutter.open_source_license }}",
+  "raw_data_directory": "{{ cookiecutter.raw_data_directory }}",
+  "preprocessed_data_directory": "{{ cookiecutter.preprocessed_data_directory }}",
+  "intermediate_data_directory": "{{ cookiecutter.intermediate_data_directory }}",
+  "results_data_directory": "{{ cookiecutter.results_data_directory }}",
+  "depth_directory_structure": "{{ cookiecutter.depth_directory_structure }}",
+  "levels": "{{ cookiecutter.levels }}"
+}

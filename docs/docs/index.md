@@ -2,6 +2,7 @@
 
 _A logical, reasonably standardized, but flexible project structure for doing and sharing data science work._
 
+This fork has been tuned to the needs of neural data analysis. 
 ## Why use this project structure?
 
 > We're not talking about bikeshedding the indentation aesthetics or pedantic formatting standards — ultimately, data science code quality is about correctness and reproducibility.
@@ -58,7 +59,7 @@ With this in mind, we've created a data science cookiecutter template for projec
 
 ### Requirements
 
- - Python 2.7 or 3.5
+ - Python 3.5 or higher
  - [cookiecutter Python package](http://cookiecutter.readthedocs.org/en/latest/installation.html) >= 1.4.0: `pip install cookiecutter`
 
 
@@ -67,12 +68,9 @@ With this in mind, we've created a data science cookiecutter template for projec
 Starting a new project is as easy as running this command at the command line. No need to create a directory first, the cookiecutter will do it for you.
 
 ```nohighlight
-cookiecutter https://github.com/drivendata/cookiecutter-data-science
+cookiecutter https://github.com/fpbattaglia/cookiecutter-data-science
 ```
 
-### Example
-
-<script type="text/javascript" src="https://asciinema.org/a/9bgl5qh17wlop4xyxu9n9wr02.js" id="asciicast-9bgl5qh17wlop4xyxu9n9wr02" async></script>
 
 ## Directory structure
 
@@ -82,10 +80,10 @@ cookiecutter https://github.com/drivendata/cookiecutter-data-science
 ├── README.md          <- The top-level README for developers using this project.
 ├── data
 │   ├── external       <- Data from third party sources.
-│   ├── interim        <- Intermediate data that has been transformed.
+│   ├── intermediate        <- Intermediate data that has been transformed.
 │   ├── processed      <- The final, canonical data sets for modeling.
-│   └── raw            <- The original, immutable data dump.
-│
+│   ├── raw            <- The original, immutable data dump.
+│   └── metadata       <- all metadata to the project
 ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
 │
 ├── models             <- Trained and serialized models, model predictions, or model summaries
@@ -165,13 +163,16 @@ There are other tools for managing DAGs that are written in Python instead of a 
 
 The first step in reproducing an analysis is always reproducing the computational environment it was run in. You need the same tools, the same libraries, and the same versions to make everything play nicely together.
 
-One effective approach to this is use [virtualenv](https://virtualenv.pypa.io/en/latest/) (we recommend [virtualenvwrapper](https://virtualenvwrapper.readthedocs.org/en/latest/) for managing virtualenvs). By listing all of your requirements in the repository (we include a `requirements.txt` file) you can easily track the packages needed to recreate the analysis. Here is a good workflow:
-
- 1. Run `mkvirtualenv` when creating a new project
- 2. `pip install` the packages that your analysis needs
- 3. Run `pip freeze > requirements.txt` to pin the exact package versions used to recreate the analysis
- 4. If you find you need to install another package, run `pip freeze > requirements.txt` again and commit the changes to version control.
-
+In case of environments for scientific data analysis, Conda is the tool of choice as it enablies
+installation of critical non-python packages and libraries 
+ 1. Run `make create_environment` when creating a new project to create a barebone environment including default packages.
+ By default, the environment will have the same name as the repo.
+ If desired, add more packages to the `environment.yml` file
+ 2. Environment may be activated with `conda activate env_name`
+ 3. If new packages  are needed they may be added with `conda install package_name`. 
+ They should also be added to the environment.yml (keep under source control)
+ 3. Run `conda env export > environment_detail.yml` to pin the exact package versions used to recreate the analysis
+Keep unders source control. Make sure to document which phase of the analysis was performed 
 If you have more complex requirements for recreating your environment, consider a virtual machine based approach such as [Docker](https://www.docker.com/) or [Vagrant](https://www.vagrantup.com/). Both of these tools use text-based formats (Dockerfile and Vagrantfile respectively) you can easily add to source control to describe how to create a virtual machine with the requirements you need.
 
 ### Keep secrets and configuration out of version control
@@ -199,8 +200,6 @@ If you look at the stub script in `src/data/make_dataset.py`, it uses a package 
 import os
 from dotenv import load_dotenv, find_dotenv
 
-# find .env automagically by walking up directories until it's found
-dotenv_path = find_dotenv()
 
 # load up the entries as environment variables
 load_dotenv(dotenv_path)

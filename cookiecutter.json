@@ -8,5 +8,7 @@
     "preprocessed_data_directory": "Preprocessed data directory",
     "intermediate_data_directory": "Intermediate data directory",
     "results_data_directory": "Results data directory",
-    "depth_directory_structure": ["1", "2", "3"]
+    "depth_directory_structure": ["1", "2", "3"],
+    "levels": "levels for the data analysis (comma separated)"
+
 }
