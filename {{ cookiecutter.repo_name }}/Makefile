@@ -12,6 +12,7 @@ RAW_DATA_DIR = {{ cookiecutter.raw_data_directory }}
 PREPROC_DATA_DIR = {{ cookiecutter.preprocessed_data_directory }}
 RESULTS_DATA_DIR = {{ cookiecutter.results_data_directory }}
 INTERM_DATA_DIR = {{ cookiecutter.intermediate_data_directory }}
+METADATA_DIR = {{ cookiecutter.metadata_directory }}
 DEPTH_DIR = {{ cookiecutter.depth_directory_structure}}
 
 #################################################################################
@@ -72,7 +73,7 @@ data_dirs:
 	rm -rf data/preprocessed && ln -sf ${PREPROC_DATA_DIR} data/preprocessed
 	rm -rf data/intermediate && ln -sf ${INTERM_DATA_DIR} data/intermediate
 	rm -rf data/results && ln -sf ${RESULTS_DATA_DIR} data/results
-
+	rm -rf data/metadata && ln -sf ${RESULTS_DATA_DIR} data/metadata
 
 
 #################################################################################
