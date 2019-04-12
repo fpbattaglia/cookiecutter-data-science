@@ -43,6 +43,7 @@ create_environment:
 data_dirs:
 	# make raw data folder readonly
 	chmod -R 555 ${RAW_DATA_DIR}
+	chmod -R 555 ${METADATA_DIR}
 
 	rm -rf ${PREPROC_DATA_DIR}
 	rm -rf ${RESULTS_DATA_DIR}
@@ -73,7 +74,7 @@ data_dirs:
 	rm -rf data/preprocessed && ln -sf ${PREPROC_DATA_DIR} data/preprocessed
 	rm -rf data/intermediate && ln -sf ${INTERM_DATA_DIR} data/intermediate
 	rm -rf data/results && ln -sf ${RESULTS_DATA_DIR} data/results
-	rm -rf data/metadata && ln -sf ${RESULTS_DATA_DIR} data/metadata
+	rm -rf data/metadata && ln -sf ${METADATA_DIR} data/metadata
 
 
 #################################################################################
