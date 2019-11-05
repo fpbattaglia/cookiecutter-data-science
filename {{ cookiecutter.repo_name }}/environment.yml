@@ -9,7 +9,10 @@ dependencies:
   - numba
   - pandas
   - numpy
+  - h5py
+  - pytables
   - matplotlib
+  - bokeh
   - scipy
   - notebook
   - rpy2
@@ -18,3 +21,4 @@ dependencies:
   - sphinx_rtd_theme
   - recommonmark
   - flake8
+  - jupyterlab

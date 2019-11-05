@@ -8,6 +8,7 @@ _The overall description of the project goes here
 Project Organization
 ------------
 
+```
     ├── LICENSE            <- License file
     ├── Makefile           <- Makefile with commands like `make data` or `make train`
     ├── README.md          <- The top-level README for developers using this project.
@@ -41,7 +42,7 @@ Project Organization
     │       ├── __init__.py
     │       └── visualize.py
     └── tox.ini          <- tox file with settings for running tox; see tox.testrun.org
-
+```
 
  
 

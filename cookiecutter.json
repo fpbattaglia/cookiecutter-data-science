@@ -4,11 +4,12 @@
     "author_name": "Your name (or your organization/company/team)",
     "description": "A short description of the project.",
     "open_source_license": ["MIT", "BSD-3-Clause", "No license file"],
-    "raw_data_directory": "Raw data directory",
-    "preprocessed_data_directory": "Preprocessed data directory",
-    "intermediate_data_directory": "Intermediate data directory",
-    "results_data_directory": "Results data directory",
-    "metadata_directory": "Metadata directory",
+    "project_directory": "Project directory",
+    "raw_data_directory": "",
+    "preprocessed_data_directory": "",
+    "intermediate_data_directory": "",
+    "results_data_directory": "",
+    "metadata_directory": "",
     "depth_directory_structure": ["1", "2", "3"],
     "levels": "levels for the data analysis (comma separated)"
 
